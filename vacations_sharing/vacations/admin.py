@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Vacation, Category
 
-# Register your models here.
+admin.site.register(Vacation)
+admin.site.register(Category)
+
