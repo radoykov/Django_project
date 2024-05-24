@@ -15,7 +15,7 @@ class Vacation(models.Model):
     end_date = models.DateField()
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     author = models.ForeignKey(User, on_delete=models.RESTRICT)
-    date_created = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     
     def __str__(self):
         return self.title
