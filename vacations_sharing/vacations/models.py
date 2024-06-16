@@ -20,11 +20,14 @@ class Vacation(models.Model):
     def __str__(self):
         return self.title
     
-# class Comment(models.Model):
-#     text = models.CharField(max_length=200)
-#     #vacation id
-#     #id author
-#     date_created = models.DateTimeField()
+class Comment(models.Model):
+    text = models.CharField(max_length=4000)
+    vacation = models.ForeignKey(Vacation, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.RESTRICT)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    
+    def __str__(self):
+        return self.text
     
 # class Reply(models.Model):
 #     text = models.CharField(max_length=200)

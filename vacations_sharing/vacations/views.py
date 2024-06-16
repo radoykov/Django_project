@@ -13,7 +13,7 @@ from .models import Vacation, Category
 def vacations_list(request):
 
     if request.method == 'GET':
-        vacations = Vacation.objects.select_related('category', 'author')
+        vacations = Vacation.objects.select_related('category', 'author').all()
         serializer = VacationSerializer(vacations, many=True)
         return Response(serializer.data)
     
@@ -28,7 +28,7 @@ def vacations_list(request):
 def categories_list(request):
     
     if request.method == 'GET':
-        categories = Category.objects
+        categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)  
     
