@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from . import views_comments
 from . import views_likes
@@ -17,5 +17,7 @@ urlpatterns = [
     path('vacations/<int:vacation_id>/likes/',views_likes.get_likes , name="likes_list"),
     path('vacations/<int:vacation_id>/like',views_likes.like_vacation , name="like_vacation"),
     path('vacations/<int:vacation_id>/dislike',views_likes.dislike_vacation , name="dislike_vacation"),
+    
+    path('auth/', include('rest_framework.urls')),
 
 ]

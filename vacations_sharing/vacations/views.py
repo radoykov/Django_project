@@ -2,14 +2,16 @@
 # from django.http import HttpResponse
 from django.db.models.deletion import RestrictedError
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .serializers import VacationSerializer, CategorySerializer
 from .models import Vacation, Category
-
+from .custom_permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def vacations_list(request):
 
     if request.method == 'GET':
@@ -25,6 +27,7 @@ def vacations_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAdminOrReadOnly])
 def categories_list(request):
     
     if request.method == 'GET':
@@ -41,6 +44,7 @@ def categories_list(request):
     
     
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAdminOrReadOnly])
 def category_detail(request, pk):
 
     try:
@@ -73,6 +77,7 @@ def category_detail(request, pk):
 
 
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthorOrReadOnly])
 def vacation_detail(request, pk):
 
     try:

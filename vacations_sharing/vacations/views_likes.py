@@ -1,5 +1,6 @@
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response 
 
 from .models import Vacation
@@ -15,6 +16,7 @@ def get_likes(request, vacation_id):
     return Response({'count': liked_users.count(), 'users': liked_users})
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def like_vacation(request, vacation_id):
     try:
         vacation = Vacation.objects.get(pk=vacation_id)
@@ -30,6 +32,7 @@ def like_vacation(request, vacation_id):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def dislike_vacation(request, vacation_id):
     try:
         vacation = Vacation.objects.get(pk=vacation_id)
