@@ -16,6 +16,7 @@ class Vacation(models.Model):
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     author = models.ForeignKey(User, on_delete=models.RESTRICT)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    likes = models.ManyToManyField(User, related_name="likes")
     
     def __str__(self):
         return self.title
@@ -29,8 +30,3 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
     
-# class Reply(models.Model):
-#     text = models.CharField(max_length=200)
-#     #coment id
-#     #author id
-#     date = models.DateTimeField()
