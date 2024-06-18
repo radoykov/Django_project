@@ -1,5 +1,3 @@
-# from django.shortcuts import render
-# from django.http import HttpResponse
 from django.db.models.deletion import RestrictedError
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -15,7 +13,12 @@ from .custom_permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly
 def vacations_list(request):
 
     if request.method == 'GET':
-        vacations = Vacation.objects.select_related('category', 'author').all()
+        category_from_query = request.query_params.get('category')
+        if category_from_query == None:
+            vacations = Vacation.objects.select_related('category', 'author').all()
+        else:
+            vacations = Vacation.objects.filter(category_id = category_from_query).select_related('category', 'author').all()
+            
         serializer = VacationSerializer(vacations, many=True)
         return Response(serializer.data)
     
